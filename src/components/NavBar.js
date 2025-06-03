@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import icon from "./icon.png"
 
 function Navbar() {
   const { user, logout, isAdmin } = useAuth();
@@ -16,10 +17,15 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
+         <img
+      src={icon}     // If in public folder, else import it if in src/assets
+      alt="MindDrops Logo"
+      style={{ height: "40px", marginRight: "10px" }}
+    />
         <NavLink className="navbar-brand" to="/">
-          MyBlog
+          MindDrops
         </NavLink>
 
         <button

@@ -3,6 +3,8 @@ import { useAuth } from "./AuthContext";
 import { db } from "../firebase";  // No need for storage import
 import { collection, addDoc, Timestamp, doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 function PostForm() {
   const { user } = useAuth();
@@ -97,15 +99,14 @@ function PostForm() {
           />
         </div>
         <div className="mb-3">
-          <textarea
-            name="content"
-            placeholder="Content"
-            value={form.content}
-            onChange={handleChange}
-            required
-            className="form-control"
-            rows={6}
-          />
+          <ReactQuill
+  value={form.content}
+  onChange={(value) => setForm({ ...form, content: value })}
+  theme="snow"
+  placeholder="Write your post content here..."
+  style={{ height: "300px", marginBottom: "3rem" }}
+/>
+
         </div>
         <div className="mb-3">
           <input

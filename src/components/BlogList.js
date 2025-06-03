@@ -58,6 +58,32 @@ function BlogList() {
     await deleteDoc(doc(db, "posts", postId));
     setPosts(posts.filter(post => post.id !== postId));
   };
+const handleShare = async (postId) => {
+  const postUrl = `${window.location.origin}/post/${postId}`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Check out this blog post",
+        text: "I found this interesting blog post:",
+        url: postUrl,
+      });
+      // Optionally no alert needed — user knows they shared
+    } catch (error) {
+      alert("Share canceled or failed.");
+    }
+  } else if (navigator.clipboard) {
+    try {
+      await navigator.clipboard.writeText(postUrl);
+      alert("Post link copied to clipboard!");
+    } catch (error) {
+      alert("Failed to copy link.");
+    }
+  } else {
+    // Fallback: prompt with the URL so user can copy manually
+    prompt("Copy this link:", postUrl);
+  }
+};
 
   const handleLike = async (postId, alreadyLiked) => {
     if (!user) {
@@ -173,6 +199,13 @@ function BlogList() {
   >
     {likedPosts.has(featuredPost.id) ? "♥" : "♡"} {featuredPost.likes?.length || 0}
   </button>
+   <button
+    className="btn btn-sm btn-outline-secondary"
+    onClick={() => handleShare(featuredPost.id)}
+    title="Share post link"
+  >
+    🔗 Share
+  </button>
   {isAdmin && (
     <button
       className="btn btn-danger"
@@ -194,13 +227,13 @@ function BlogList() {
       <div className="row">
         {editorPicks.map((post) => (
           <div className="col-md-4 mb-4" key={post.id}>
-            <div className="card h-100 shadow-sm">
+            <div className="card h-100 shadow-sm" style={{ width: "100%", height: "180px", overflow: "hidden" }}>
               {post.imageUrl && (
                 <img
                   src={post.imageUrl}
                   alt={post.title}
                   className="card-img-top"
-                  style={{ height: "180px", objectFit: "cover" }}
+                  style={{ width: "100%", height: "180px", objectFit: "contain" }}
                 />
               )}
               <div className="card-body d-flex flex-column">
@@ -222,7 +255,13 @@ function BlogList() {
 >
   {likedPosts.has(post.id) ? "♥" : "♡"} {post.likes?.length || 0}
 </button>
-
+ <button
+    className="btn btn-sm btn-outline-secondary"
+    onClick={() => handleShare(featuredPost.id)}
+    title="Share post link"
+  >
+    🔗 Share
+  </button>
   {isAdmin && (
     <button
       className="btn btn-danger"

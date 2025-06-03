@@ -3,6 +3,9 @@ import { db } from "../firebase";
 import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc, Timestamp } from "firebase/firestore";
 import { useAuth } from "./AuthContext";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
 
 function EditPost() {
   const { id } = useParams();
@@ -117,15 +120,16 @@ function EditPost() {
           />
         </div>
         <div className="mb-3">
-          <textarea
-            name="content"
-            placeholder="Content"
-            value={form.content}
-            onChange={handleChange}
-            required
-            className="form-control"
-            rows={6}
-          />
+         <div className="mb-3">
+  <ReactQuill
+    value={form.content}
+    onChange={(value) => setForm({ ...form, content: value })}
+    theme="snow"
+    placeholder="Write your post content here..."
+    style={{ height: "300px", marginBottom: "3rem" }}
+  />
+</div>
+
         </div>
         <div className="mb-3">
           <input

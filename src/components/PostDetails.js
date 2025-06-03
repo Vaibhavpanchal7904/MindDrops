@@ -59,7 +59,11 @@ function PostDetails() {
             : post.publishedAt
         ).toDateString()}
       </p>
-      <p className="mb-4">{post.content}</p>
+ <div
+  className="mb-4"
+  dangerouslySetInnerHTML={{ __html: post.content }}
+/>
+
      <p>
   <strong>Category:</strong>{" "}
   {post.category ? (

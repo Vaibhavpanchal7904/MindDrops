@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 
 function Footer() {
   return (
@@ -8,7 +8,7 @@ function Footer() {
         
         
         <div className="text-center small">
-          © {new Date().getFullYear()} My Personal Blog. All rights reserved.
+          © {new Date().getFullYear()} MindDrops. All rights reserved.
         </div>
       </div>
     </footer>
